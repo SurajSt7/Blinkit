@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
+  Alert,
   Animated,
   Image,
+  Keyboard,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import {
@@ -17,13 +18,39 @@ import CustomSafeAreaView from '../../components/global/CustomSafeAreaView.tsx';
 import ProductSlider from '../../components/login/ProductSlider.tsx';
 import {resetAndNaviagate} from '../../utils/NavigationUtils.tsx';
 import CustomText from '../../components/ui/CustomText.tsx';
-import {Fonts} from '../../utils/Constants';
+import {Colors, Fonts, lightColors} from '../../utils/Constants';
 import CustomInput from '../../components/ui/CustomInput.tsx';
+import CustomButton from '../../components/ui/CustomButton.tsx';
+import useKeyboardHeight from '../../utils/useKeyboardHeight.tsx';
+import {RFValue} from 'react-native-responsive-fontsize';
+import LinearGradient from 'react-native-linear-gradient';
+import {customerLogin} from '../../../service/authService.tsx';
+
+const bottomColors = [...lightColors].reverse();
 
 const CustomerLogin: React.FC = () => {
   const [gestureSequence, setGestureSequence] = useState<string[]>([]);
   const [phone, setPhone] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const keyboardHeight = useKeyboardHeight();
+
+  const animatedValue = useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    if (keyboardHeight === 0) {
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: -keyboardHeight * 0.84,
+        tension: 12,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [keyboardHeight]);
 
   const handleGesture = ({nativeEvent}: PanGestureHandlerGestureEvent) => {
     if (nativeEvent.state === State.END) {
@@ -44,6 +71,17 @@ const CustomerLogin: React.FC = () => {
     }
   };
 
+  const handleAuth = async () => {
+    Keyboard.dismiss();
+    setLoading(true);
+    try {
+      await customerLogin(phone);
+      resetAndNaviagate('ProductDashboard');
+    } catch (er) {
+      Alert.alert('Login Failed');
+    }
+  };
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <CustomSafeAreaView>
@@ -53,7 +91,9 @@ const CustomerLogin: React.FC = () => {
             bounces={false}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.subContainer}
-            keyboardDismissMode="on-drag">
+            keyboardDismissMode="on-drag"
+            style={{transform: [{translateY: animatedValue}]}}>
+            <LinearGradient colors={bottomColors} style={styles.lg} />
             <View style={styles.content}>
               <Image
                 source={require('../../assets/images/logo.png')}
@@ -86,10 +126,23 @@ const CustomerLogin: React.FC = () => {
                   </CustomText>
                 }
               />
+              <CustomButton
+                disbaled={phone.length !== 10}
+                onPress={handleAuth}
+                loading={loading}
+                title="Continue"
+              />
             </View>
           </Animated.ScrollView>
         </PanGestureHandler>
       </CustomSafeAreaView>
+      <View style={styles.footer}>
+        <SafeAreaView>
+          <CustomText fontSize={RFValue(6)}>
+            By Continuing, you agree to our Terms of Service & Privacy Policy
+          </CustomText>
+        </SafeAreaView>
+      </View>
     </GestureHandlerRootView>
   );
 };
@@ -129,5 +182,22 @@ const styles = StyleSheet.create({
   },
   phoneText: {
     marginLeft: 12,
+  },
+  footer: {
+    borderTopWidth: 0.8,
+    borderTopColor: Colors.border,
+    paddingBottom: 10,
+    zIndex: 10,
+    position: 'absolute',
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#f8f9fc',
+    width: '100%',
+  },
+  lg: {
+    paddingTop: 60,
+    width: '100%',
   },
 });
