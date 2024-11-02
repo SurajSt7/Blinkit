@@ -16,7 +16,7 @@ const CustomInput: React.FC<
   CustomInputProps & React.ComponentProps<typeof TextInput>
 > = props => {
   const {left, right = true, onClear, onChangeText, value, ...rest} = props;
-  console.log('input value length: ', value.length);
+
   return (
     <View style={styles.flexRow}>
       {left}
