@@ -4,7 +4,7 @@ import {Colors, Fonts} from '../../utils/Constants';
 import CustomText from './CustomText';
 
 type CustomButtonProps = {
-  onPress: () => void;
+  onPress?: () => void;
   title: string;
   disbaled?: boolean;
   loading?: boolean;

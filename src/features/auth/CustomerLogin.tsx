@@ -21,7 +21,7 @@ import CustomText from '../../components/ui/CustomText.tsx';
 import {Colors, Fonts, lightColors} from '../../utils/Constants';
 import CustomInput from '../../components/ui/CustomInput.tsx';
 import CustomButton from '../../components/ui/CustomButton.tsx';
-import useKeyboardHeight from '../../utils/useKeyboardHeight.tsx';
+import useKeyboardHeight from '../../utils/useKeyboardHeight';
 import {RFValue} from 'react-native-responsive-fontsize';
 import LinearGradient from 'react-native-linear-gradient';
 import {customerLogin} from '../../../service/authService.tsx';
@@ -61,7 +61,6 @@ const CustomerLogin: React.FC = () => {
       } else {
         direction = translationY > 0 ? 'down' : 'up';
       }
-
       const newSequence = [...gestureSequence, direction].slice(-5);
       setGestureSequence(newSequence);
       if (newSequence.join(' ') === 'up up down left right') {

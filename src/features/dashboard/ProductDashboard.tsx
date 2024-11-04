@@ -1,11 +1,16 @@
 import {StyleSheet} from 'react-native';
 import React from 'react';
 import CustomText from '../../components/ui/CustomText';
+import {useAuthStore} from '../../state/authStore';
+import CustomAreaView from '../../components/global/CustomSafeAreaView';
 
-const ProductDashboard = () => {
+const ProductDashboard: React.FC<any> = () => {
+  const {user} = useAuthStore();
   return (
     <>
-      <CustomText>Product Dashboard</CustomText>
+      <CustomAreaView>
+        <CustomText>Product Dashboard</CustomText>
+      </CustomAreaView>
     </>
   );
 };

@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
-import {Alert, Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, StyleSheet, View} from 'react-native';
 import {Colors} from '../../utils/Constants';
 import {screenHeight, screenWidth} from '../../utils/Scaling';
 import Logo from '../../assets/images/splash_logo.jpeg';
 import GeoLocation from '@react-native-community/geolocation';
 import {useAuthStore} from '../../state/authStore';
 import {tokenStorage} from '../../state/storage';
-import {navigate, resetAndNaviagate} from '../../utils/NavigationUtils';
+import {resetAndNaviagate} from '../../utils/NavigationUtils';
+import {jwtDecode} from 'jwt-decode';
+import {refetchUser, refresh_Token} from '../../../service/authService';
 
 GeoLocation.setRNConfiguration({
   skipPermissionRequests: false,
@@ -15,6 +17,10 @@ GeoLocation.setRNConfiguration({
   locationProvider: 'auto',
 });
 
+type DecodeToken = {
+  expiry: number;
+};
+
 const SplashScreen: React.FC = () => {
   const {setUser, user} = useAuthStore();
 
@@ -22,6 +28,31 @@ const SplashScreen: React.FC = () => {
     const accessToken = tokenStorage.getString('accessToken') as string;
     const refreshToken = tokenStorage.getString('refreshToken') as string;
     if (accessToken) {
+      const decodedAccessToken = jwtDecode<DecodeToken>(accessToken);
+      const decodedRefreshToken = jwtDecode<DecodeToken>(refreshToken);
+
+      const currentTime = Date.now() / 1000;
+
+      if (decodedRefreshToken?.expiry < currentTime) {
+        resetAndNaviagate('CustomerLogin');
+        Alert.alert('Session Expired', 'Please login again');
+        return false;
+      }
+
+      if (decodedAccessToken.expiry < currentTime) {
+        try {
+          refresh_Token();
+          await refetchUser(setUser);
+        } catch (er) {
+          console.error('Caught an error while refetching the toke: ', er);
+        }
+      }
+      if (user?.role === 'Customer') {
+        resetAndNaviagate('ProductDashboard');
+      } else {
+        resetAndNaviagate('DeliveryDashboard');
+      }
+      return true;
     }
     resetAndNaviagate('CustomerLogin');
     return false;
