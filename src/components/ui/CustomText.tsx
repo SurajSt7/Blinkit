@@ -31,6 +31,7 @@ const CustomText: React.FC<CustomTextProps> = props => {
     onLayout,
     style,
     variant = 'body',
+    ...rest
   } = props;
 
   let computedFontSize: number;
@@ -82,7 +83,7 @@ const CustomText: React.FC<CustomTextProps> = props => {
       ]}
       onLayout={onLayout}
       numberOfLines={numberOfLines ?? undefined}
-      {...props}>
+      {...rest}>
       {children}
     </Text>
   );

@@ -19,8 +19,28 @@ const DeliveryLogin: React.FC = () => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      await deliveryLogin(email, password);
-      resetAndNaviagate('DeliveryDashboard');
+      const result = await deliveryLogin(email.toLowerCase(), password);
+      if (result) {
+        resetAndNaviagate('DeliveryDashboard');
+      } else {
+        setLoading(false);
+        Alert.alert(
+          'Login Failed',
+          'Please ensure the entered email and password are correct',
+          [
+            {
+              text: 'OK',
+              style: 'destructive',
+              onPress: () => {},
+            },
+            {
+              text: 'Cancel',
+              style: 'destructive',
+              onPress: () => {},
+            },
+          ],
+        );
+      }
     } catch (er) {
       console.log('Login failed: ', er);
       Alert.alert('Login Failed');

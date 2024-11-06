@@ -31,7 +31,11 @@ export const deliveryLogin = async (email: string, password: string) => {
     tokenStorage.set('refreshToken', accessToken);
     const {setUser} = useAuthStore.getState();
     setUser(deliveryPartner);
-  } catch (er) {}
+    return true;
+  } catch (er) {
+    console.log('Caught an error: ', er);
+    return false;
+  }
 };
 
 export const refresh_Token = async () => {

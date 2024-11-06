@@ -42,7 +42,7 @@ const SplashScreen: React.FC = () => {
       if (decodedAccessToken.expiry < currentTime) {
         try {
           refresh_Token();
-          await refetchUser(setUser);
+          await refetchUser(setUser(user));
         } catch (er) {
           console.error('Caught an error while refetching the toke: ', er);
         }
