@@ -1,4 +1,7 @@
 {
   "name": "blinkit",
-  "displayName": "blinkit"
+  "displayName": "blinkit",
+  "android": {
+    "packageName": "com.blinkit"
+  }
 }

@@ -12,11 +12,13 @@ export const customerLogin = async (phone: string) => {
     });
     const {accessToken, refreshToken, customer} = response.data;
     tokenStorage.set('accessToken', accessToken);
-    tokenStorage.set('refreshToken', accessToken);
+    tokenStorage.set('refreshToken', refreshToken);
     const {setUser} = useAuthStore.getState();
     setUser(customer);
+    return true;
   } catch (er) {
     console.error('Caught an error while logging in: ', er);
+    return false;
   }
 };
 

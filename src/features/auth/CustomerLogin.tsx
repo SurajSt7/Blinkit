@@ -74,8 +74,28 @@ const CustomerLogin: React.FC = () => {
     Keyboard.dismiss();
     setLoading(true);
     try {
-      await customerLogin(phone);
-      resetAndNaviagate('ProductDashboard');
+      const result = await customerLogin(phone);
+      if (result) {
+        resetAndNaviagate('ProductDashboard');
+      } else {
+        setLoading(false);
+        Alert.alert(
+          'Login Failed',
+          'Please ensure the entered email and password are correct',
+          [
+            {
+              text: 'OK',
+              style: 'destructive',
+              onPress: () => {},
+            },
+            {
+              text: 'Cancel',
+              style: 'destructive',
+              onPress: () => {},
+            },
+          ],
+        );
+      }
     } catch (er) {
       Alert.alert('Login Failed');
     }

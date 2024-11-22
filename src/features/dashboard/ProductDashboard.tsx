@@ -1,9 +1,16 @@
-import {StyleSheet, Animated, SafeAreaView} from 'react-native';
+import {StyleSheet, Animated, SafeAreaView, View} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import CustomText from '../../components/ui/CustomText';
 import NoticeAnimation from './NoticeAnimation';
 import {NOTICE_HEIGHT} from '../../utils/Scaling';
 import Visuals from './Visuals';
+import {
+  CollapsibleContainer,
+  CollapsibleHeaderContainer,
+  withCollapsibleContext,
+} from '@r0b0t3d/react-native-collapsible';
+import AnimatedHeader from './AnimatedHeader';
+import StickySearchBar from './StickySearchBar';
 
 const NOTICE_HEIGHT_ = -(NOTICE_HEIGHT + 12);
 
@@ -50,12 +57,33 @@ const ProductDashboard: React.FC = () => {
       <>
         <Visuals />
         <SafeAreaView />
-        <CustomText>Product Dashboard</CustomText>
+        <CollapsibleContainer style={styles.panelContainer}>
+          <CollapsibleHeaderContainer containerStyle={styles.transparent}>
+            <AnimatedHeader
+              showNotice={() => {
+                slideDown();
+                const timeout = setTimeout(() => {
+                  slideUp();
+                }, 2000);
+                return () => clearTimeout(timeout);
+              }}
+            />
+            <StickySearchBar />
+          </CollapsibleHeaderContainer>
+        </CollapsibleContainer>
       </>
     </NoticeAnimation>
   );
 };
 
-export default ProductDashboard;
+export default withCollapsibleContext(ProductDashboard);
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  panelContainer: {
+    flex: 1,
+    paddingHorizontal: 12,
+  },
+  transparent: {
+    backgroundColor: 'transparent',
+  },
+});

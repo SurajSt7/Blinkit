@@ -1,14 +1,14 @@
-import React from 'react';
-import {StyleSheet, View, Animated as RNAnimated} from 'react-native';
+import React, {Ref} from 'react';
+import {StyleSheet, View, Animated as RNAnimated, Animated} from 'react-native';
 import {NOTICE_HEIGHT} from '../../utils/Scaling';
 import Notice from '../../components/dashboard/Notice';
 
 const NOTICE_HEIGHT_ = -(NOTICE_HEIGHT + 12);
 
 const NoticeAnimation: React.FC<{
-  noticePosition?: any;
+  noticePosition?: Animated.Value;
   children: React.ReactElement;
-}> = ({noticePosition, children}) => {
+}> = ({noticePosition = new Animated.Value(0), children}) => {
   return (
     <View style={styles.container}>
       <RNAnimated.View
