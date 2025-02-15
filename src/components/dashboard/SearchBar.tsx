@@ -15,19 +15,19 @@ const SearchBar: React.FC = () => {
         defaultStyle={false}
         customStyle={styles.textContainer}>
         <CustomText variant="h6" fontFamily={Fonts.Medium}>
-          Search "Sweets"
+          Search "Grocery"
         </CustomText>
         <CustomText variant="h6" fontFamily={Fonts.Medium}>
-          Search "milk"
+          Search "Electronic Products"
         </CustomText>
         <CustomText variant="h6" fontFamily={Fonts.Medium}>
-          Search "atta, dal, coke"
+          Search "Sports equipment"
         </CustomText>
         <CustomText variant="h6" fontFamily={Fonts.Medium}>
-          Search "chips"
+          Search "Snacks"
         </CustomText>
         <CustomText variant="h6" fontFamily={Fonts.Medium}>
-          Search "pooja equipments"
+          Search "Fruits"
         </CustomText>
       </RollingBar>
       <View style={styles.divider} />

@@ -8,7 +8,7 @@ import {wavyData} from '../../utils/dummyData';
 
 const Notice: React.FC = () => {
   return (
-    <View style={{height: NOTICE_HEIGHT}}>
+    <View style={{height: NOTICE_HEIGHT - 8}}>
       <View style={styles.container}>
         <View style={styles.noticeContainer}>
           <SafeAreaView style={{padding: 10}}>

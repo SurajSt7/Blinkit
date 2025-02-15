@@ -1,6 +1,5 @@
 import {useCollapsibleContext} from '@r0b0t3d/react-native-collapsible';
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
 import Animated, {interpolate, useAnimatedStyle} from 'react-native-reanimated';
 import Header from '../../components/dashboard/Header';
 
@@ -22,5 +21,3 @@ const AnimatedHeader: React.FC<{showNotice: () => void}> = ({showNotice}) => {
 };
 
 export default AnimatedHeader;
-
-const styles = StyleSheet.create({});

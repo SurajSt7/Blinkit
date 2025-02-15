@@ -1,5 +1,11 @@
 import React, {Ref} from 'react';
-import {StyleSheet, View, Animated as RNAnimated, Animated} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Animated as RNAnimated,
+  Animated,
+  StatusBar,
+} from 'react-native';
 import {NOTICE_HEIGHT} from '../../utils/Scaling';
 import Notice from '../../components/dashboard/Notice';
 
@@ -11,6 +17,7 @@ const NoticeAnimation: React.FC<{
 }> = ({noticePosition = new Animated.Value(0), children}) => {
   return (
     <View style={styles.container}>
+      <StatusBar hidden barStyle={'light-content'} />
       <RNAnimated.View
         style={[
           styles.noticeContainer,
@@ -24,7 +31,7 @@ const NoticeAnimation: React.FC<{
           {
             paddingTop: noticePosition.interpolate({
               inputRange: [NOTICE_HEIGHT_, 0],
-              outputRange: [0, NOTICE_HEIGHT_ + 20],
+              outputRange: [0, NOTICE_HEIGHT + 20],
             }),
           },
         ]}>

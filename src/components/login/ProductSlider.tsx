@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {imageData} from '../../utils/dummyData';
 import AutoScroll from '@homielab/react-native-auto-scroll';
 import {screenHeight, screenWidth} from '../../utils/Scaling';
