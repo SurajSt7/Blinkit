@@ -87,8 +87,7 @@ const ProductDashboard: React.FC = () => {
     <NoticeAnimation noticePosition={noticePosition}>
       <>
         <Visuals />
-        {/* <StatusBar hidden translucent backgroundColor={'transparent'} /> */}
-        <StatusBar backgroundColor={'transparent'} hidden translucent />
+        <StatusBar hidden translucent />
         <SafeAreaView />
         <Animated.View style={[styles.backToTopButton, backToTopStyle]}>
           <TouchableOpacity
