@@ -29,3 +29,14 @@ export const getAllOrders = async () => {
     return er;
   }
 };
+
+export const getOrderById = async (id: string) => {
+  try {
+    const api = await appAxios.get(`/order/${id}`);
+    const data = api.data;
+    return data;
+  } catch (er) {
+    console.log('getOrderById error: ', er);
+    return er;
+  }
+};

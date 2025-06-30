@@ -34,7 +34,6 @@ const ProductDashboard: React.FC = () => {
   const noticePosition = useRef(new RNAnimated.Value(NOTICE_HEIGHT_)).current;
   const {scrollY, expand} = useCollapsibleContext();
   const previousScroll = useRef<number>(0);
-  const [data, setData] = useState<string>('');
 
   const backToTopStyle = useAnimatedStyle(() => {
     const isScrollingUp =

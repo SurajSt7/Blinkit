@@ -11,6 +11,7 @@ import DeliveryDashboard from '../features/delivery/DeliveryDashboard';
 import ProductCategories from '../features/category/ProductCategories';
 import ProductOrder from '../features/order/ProductOrder';
 import OrderSuccess from '../features/order/OrderSuccess';
+import LiveTracking from '../features/map/LiveTracking';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ const Navigation: React.FC = () => {
         <Stack.Screen
           name="OrderSuccess"
           component={OrderSuccess}
+          options={{animation: 'fade'}}
+        />
+        <Stack.Screen
+          name="LiveTracking"
+          component={LiveTracking}
           options={{animation: 'fade'}}
         />
       </Stack.Navigator>
